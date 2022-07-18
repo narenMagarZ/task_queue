@@ -4,8 +4,8 @@ interface connectionOptions {
     attempt? : number | 3 | null
 }
 class Queue {
-    ioRedis : IORedis
-    queue : string
+   private ioRedis : IORedis
+   private queue : string
     constructor(
         queue:string,
         connectionOption?:connectionOptions){
@@ -37,6 +37,3 @@ class Queue {
 }
 
 export default Queue
-const connection : IORedis = IORedis.createClient()
-
-const queue = new Queue('')
