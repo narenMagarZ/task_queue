@@ -2,14 +2,20 @@
   "name": "task_queue",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.ts",
+    "test": "mocha test/**/*.spec.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^18.0.0"
+    "@types/chai": "^4.3.1",
+    "@types/ioredis": "^4.28.10",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.0.0",
+    "chai": "^4.3.6",
+    "ioredis": "^5.2.1",
+    "mocha": "^10.0.0"
   }
 }
