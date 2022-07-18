@@ -1,5 +1,4 @@
 import IORedis from "ioredis"
-import EventEmitter from 'events'
 interface connectionOptions {
     connection? : IORedis 
     attempt? : number | 3 | null
@@ -24,23 +23,13 @@ class Queue {
     }
 
     addTask(taskName:string,data?:any){
-        // here taskName can be same 
-        // hence we have to hash this taskName
-        console.log(this)
-        let taskData : any
         const queueContainer = this.ioRedis
-        switch(typeof data){
-            case "object":
-                taskData = JSON.stringify(data)
-                break;
-            case "function":
-                taskData = null
-                break
-            default :
-                taskData = data
-                break
-        }
-        queueContainer.hset(this.queue,taskName,taskData)
+        let taskData : any
+        if(typeof data === 'object'){
+            taskData = JSON.stringify(data)
+        } 
+        else taskData = data
+        queueContainer.hset(this.queue,taskName,taskData ?? null)
         return this
     }
 
