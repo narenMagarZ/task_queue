@@ -1,5 +1,4 @@
 import IORedis from "ioredis"
-import EventEmitter from 'events'
 interface connectionOptions {
     connection? : IORedis 
     attempt? : number | 3 | null
