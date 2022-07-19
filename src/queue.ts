@@ -2,6 +2,7 @@ import IORedis from "ioredis"
 import TaskQueue from './task_queue'
 import {connector} from "./connector"
 import EventEmitter from "node:events"
+import QueueContainer from './queuecontainer'
 interface connectionOptions {
     connection? : IORedis 
     attempt? : number | 3 | null
@@ -29,10 +30,12 @@ class Queue  extends TaskQueue  {
             }
     }
 
-    addTask(taskName:string,data?:any){
-        console.log(this.emitter,'from queue')
-        this.emitter.emit(taskName,data)
-        // return this.pipeline(taskName,data ?? null)
+    async addTask(task:string,data?:any){
+        const queuecontainer = new QueueContainer(this.ioRedis,this.queue)
+        await queuecontainer.push(task,data??null)
+        this.emitter.emit(task)
+        return this
+
     }
 
     
