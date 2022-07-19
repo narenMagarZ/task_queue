@@ -1,15 +1,15 @@
-import {redis} from '../redis'
-import { expect } from 'chai'
+import { redis } from "./redis.spec";
+import Worker from "../src/worker";
 import color from 'colors'
-import Worker from '../src/worker'
-const describeText = color.blue.bold
 
-describe(describeText('Check the worker implementation'),()=>{
-    it('Create worker and do task ',async()=>{
+const describeText= color.blue.bold
+
+
+describe(describeText('Create the worker'),()=>{
+    it(describeText('listen for job'),()=>{
         const worker = new Worker('queue',redis)
-       worker.listen('task1',(err,data)=>{
-            console.log(err,data)
+        worker.listen('task1',(err,data)=>{
+            console.log(err,data,'these are the task data and error')
         })
-
     })
 })

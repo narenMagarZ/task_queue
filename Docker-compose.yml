@@ -1,0 +1,8 @@
+services: 
+    app:
+      image : node:alpine
+    redis:
+      image: redis:alpine
+      container_name : cache
+      ports:
+        - 6379 : 6379
