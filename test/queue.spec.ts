@@ -15,6 +15,6 @@ describe(describeText('Create the queue'),()=>{
         setTimeout(()=>{
             queue.addTask('task1',232)
 
-        },2000)
+        },1000)
     })
 })
