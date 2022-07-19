@@ -1,6 +1,6 @@
 import IORedis from 'ioredis'
 import EventEmitter from 'node:events'
-import { connector } from './connetor'
+import { connector } from './connector'
 import TaskQueue from './task_queue'
 interface connectionOptions {
     connection? : IORedis 
