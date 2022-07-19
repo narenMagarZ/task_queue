@@ -12,6 +12,9 @@ describe(describeText('Create the queue'),()=>{
         const queue = new Queue('queue',{
             connection:redis
         })
-        queue.addTask('task1',232)
+        setTimeout(()=>{
+            queue.addTask('task1',232)
+
+        },2000)
     })
 })
