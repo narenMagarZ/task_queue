@@ -1,15 +1,17 @@
-import {redis} from '../redis'
-import { expect } from 'chai'
+import { redis } from "./redis.spec";
+
+
 import color from 'colors'
-import Queue from '../src/queue'
+import Queue from "../src/queue";
+
 const describeText = color.blue.bold
 
-describe(describeText('Check the queue implementation'),()=>{
-    it('Create queue and add task to it',async()=>{
+
+describe(describeText('Create the queue'),()=>{
+    it(describeText('Add task to the queue'),()=>{
         const queue = new Queue('queue',{
             connection:redis
         })
-        expect(queue.addTask('task1')).to.equal(queue)
-
+        queue.addTask('task1',232)
     })
 })

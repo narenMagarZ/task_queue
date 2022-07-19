@@ -1,14 +1,18 @@
 import IORedis from "ioredis"
+import TaskQueue from './task_queue'
+import {helper} from "./helper"
 interface connectionOptions {
     connection? : IORedis 
     attempt? : number | 3 | null
 }
-class Queue {
+class Queue  extends TaskQueue  {
    private ioRedis : IORedis
    private queue : string
     constructor(
         queue:string,
         connectionOption?:connectionOptions){
+            super()
+            helper.queueBase = this
             this.queue = queue
             const isValidQueueName = /^[A-z]+$/.test(this.queue)
             this.ioRedis = connectionOption?.connection as IORedis
@@ -23,17 +27,13 @@ class Queue {
     }
 
     addTask(taskName:string,data?:any){
-        const queueContainer = this.ioRedis
-        let taskData : any
-        if(typeof data === 'object'){
-            taskData = JSON.stringify(data)
-        } 
-        else taskData = data
-        queueContainer.hset(this.queue,taskName,taskData ?? null)
-        return this
+        return this.pipeline(taskName,data ?? null)
     }
 
     
 }
 
 export default Queue
+
+
+
