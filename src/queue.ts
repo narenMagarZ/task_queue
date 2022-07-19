@@ -1,6 +1,7 @@
 import IORedis from "ioredis"
 import TaskQueue from './task_queue'
-import {helper} from "./helper"
+import {connector} from "./connetor"
+import EventEmitter from "node:events"
 interface connectionOptions {
     connection? : IORedis 
     attempt? : number | 3 | null
@@ -8,11 +9,13 @@ interface connectionOptions {
 class Queue  extends TaskQueue  {
    private ioRedis : IORedis
    private queue : string
+   private emitter : EventEmitter
     constructor(
         queue:string,
         connectionOption?:connectionOptions){
             super()
-            helper.queueBase = this
+            connector.myQueue = this
+            this.emitter = connector.wire as EventEmitter
             this.queue = queue
             const isValidQueueName = /^[A-z]+$/.test(this.queue)
             this.ioRedis = connectionOption?.connection as IORedis
@@ -27,7 +30,9 @@ class Queue  extends TaskQueue  {
     }
 
     addTask(taskName:string,data?:any){
-        return this.pipeline(taskName,data ?? null)
+        console.log(this.emitter,'from queue')
+        this.emitter.emit(taskName,data)
+        // return this.pipeline(taskName,data ?? null)
     }
 
     
