@@ -17,9 +17,14 @@ class Queue  extends TaskQueue  {
             super()
             connector.myQueue = this
             this.emitter = connector.wire as EventEmitter
-            this.queue = queue
-            const isValidQueueName = /^[A-z]+$/.test(this.queue)
+            this.queue = connector.queueIdentifier + queue
+            const isValidQueueName = /^[A-z0-9]+$/.test(this.queue)
             this.ioRedis = connectionOption?.connection as IORedis
+            if(this.queue && this.ioRedis){
+                setTimeout(async()=>{
+                    while(await this.ioRedis.rpop(this.queue));;
+                })
+            }
             if(isValidQueueName){
                 if(this.ioRedis instanceof IORedis){
                 } else {
