@@ -17,7 +17,7 @@ class QueueContainer {
     }
 
     async pop(){
-        const defaultTimeOut = 2000
+        const defaultTimeOut = 0
         return await this.redisConn.blpop(this.queue,defaultTimeOut)
     }
 }
