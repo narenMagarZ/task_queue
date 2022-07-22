@@ -7,18 +7,17 @@ class QueueContainer {
         this.queue = queue
     }
     async push(task:string,data?:any){
-        
         let taskInfo = {
             'name' : task,
             'data' : typeof data === 'object' ? JSON.stringify(data) : data
         }
         let plainTaskInfo = JSON.stringify(taskInfo)
         await this.redisConn.rpush(this.queue,plainTaskInfo)
+        return
     }
 
     async pop(){
-        const defaultTimeOut = 0
-        return await this.redisConn.blpop(this.queue,defaultTimeOut)
+        return await this.redisConn.blpop(this.queue,0)
     }
 }
 
